@@ -1,0 +1,2 @@
+# SETechAssessment_mavaleri
+SETechAssessment solution
