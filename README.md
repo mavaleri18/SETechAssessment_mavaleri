@@ -10,6 +10,8 @@ Thank you for taking the time to read this. I know that Sysdig employs highly in
 I hold several certifications, including some of the most senior ones in the security field, such as CISSP, CEH, IBM Cloud Security Engineer, AWS Security Specialist, Cloud Security Knowledge (CCSK), IBM Security Architect, IBM DevSecOps Specialty, among others. I understand that certifications alone do not determine whether someone is a good professional or not. However, they demonstrate my commitment to continuous growth and learning every day. Along with being an ethical professional and a team player, this mindset has helped me in my career.
 https://www.linkedin.com/in/marvin-valerio-209690153/
 
+Note:I set up this environment from scratch solely for evaluation purposes, so I didn't follow the principles of least privilege or implement standard security best practices as I would normally do. However, I did this to assess the value of the products and how they detect these behaviors. For example doinf this in the way I did, we can observe that we are not in compliance with SOC 2 and how alerts are generated for unauthorized root access without MFA, etc. This allows us to evaluate the value of Sysdig Secure, Monitor, and Falco. All information, credentials, etc., have already been purged to ensure that they are not exposed in this public repository.
+
 TASKS:
 1.Create Kubernetes cluster - Do this however you want (EKS, GKE, AKS, IKS, OKE, KOPS, OCP, Rancher, whatever! Lots of free 'credit' options out there.) 
 Cluster Creation with eksctl
@@ -27,10 +29,9 @@ Before proceeding with the cluster creation, ensure that the following prerequis
     I used homebrew, yes I know it is not a requirement bu Homebrew is indeed a helpful package manager, and it can greatly simplify the process of installing and managing software on macOS. Using Homebrew for installing eksctl and creating your EKS cluster is a convenient approach. It allows you to easily install eksctl with a single command and ensures that you have the necessary dependencies and versions required for your cluster.
 AWS CLI configuration:
 Config file
- 
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/f2d15307-7a7d-498e-9bb0-180aa94bdcbf)
 Credentials file: keys are not completed here just for security considerations?
- 
-
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/09d48164-e065-4d89-a009-4fbc0a73bd48)
 Command used after installed and met all requirements:
 eksctl create cluster \
 --name test-cluster-sysdig \
@@ -132,18 +133,7 @@ kube-system       Active   20m
 2. Signup for a Sysdig Trial, make sure you Select All features when signing up (https://sysdig.com/start-free/)
 
 I have signed up, and this is my customer ID just to confirm that I have subscribed.
-Hello Marvin,
-Thank you for signing up for Sysdig Platform. We're excited to have you try Sysdig out in your environment.
-Your account is ready to be activated with the following credentials. You may want to keep this email for future reference.
-Account email: maXXXXXX?
-Customer ID: 5003612
-SaaS Region: gcp-prod-us
-
-
-
-
-
-
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/3c9dae5a-601a-427e-bf34-dc8e3504394d)
 3. Install the Sysdig Agent(s) to your Kubernetes cluster. 
 The Kubernetes Sysdig Agent is installed and deployed on one of the nodes (ip-192-168-20-182.ec2.internal) in my EKS cluster. I installed it using the Wizard and Helm charts.
 
@@ -185,14 +175,11 @@ marvin@marvin-virtual-machine:~$ kubectl get deployments --all-namespaces
 NAMESPACE      NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
 kube-system    coredns                      2/2     2            2           14h
 sysdig-agent   sysdig-agent-kspmcollector   1/1     1            1           2m7s
-
- 
-
-As an extra point, I associated my AWS account with sysdig secure and monitor, where I had all my configuration. Additionally, I performed a Git integration with the provided application in the Voting-App project. Finally, I installed an agent on my Linux host.
- 
- 
- 
-
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/5c7c4c85-66e7-40ef-b541-0a963fe5a725)
+As an extra point, I associated my AWS account with sysdig secure and monitor, where I had all my configuration. Additionally, I performed a Git integration with the provided application in the Voting-Appproject. Finally, I installed an agent on my Linux host.
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/40b5f82d-6b64-4bd6-aa62-968d25a0bf8a)
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/73abbbcf-4109-4f33-a374-007298f5dddd)
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/0d5f6466-1875-4834-bdcf-cdf597b1d2af)
 4. Install the classic voting app into your K8s cluster (https://github.com/dockersamples/example-voting-app) 
 In this repository, https://github.com/mavaleri18/SYSDIG-TECH-ASSESMENT-APPS2, you can find where I cloned the app.
 
@@ -220,33 +207,33 @@ To https://github.com/mavaleri18/SYSDIG-TECH-ASSESMENT-APPS2
  * [new branch]      main -> main
 
 Git integration: 
- 
-
-
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/17d14992-ca10-4a3e-8ada-156c11e68ece)
 5. Get Creative and build some stuff in Sysdig.
 SYSDIG SECURE:
 I want to emphasize that I created this deployment from scratch, and much of what I configured was intentionally done to create an insecure environment that does not follow security principles such as least privilege, etc. Additionally, I generated suspicious behaviors through commands to trigger alerts based on Falco rules. 
 
 For example, you can see that 4 rules were triggered, matching 5 different tactics from the MITRE ATT&CK Framework. As I mentioned, based on the poor security configuration of the environment, one of the events that triggered an alert was "Console Root Login Without MFA." This goes against best practices in strong authentication, violates SOC2 requirements, and is, of course, a misconfiguration that should be addressed if receiving a real alert of this nature.
- 
-
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/7c591892-f274-4043-be99-35f4fbf71ac6)
 SYSDIG MONITOR:
 In Sysdig Monitor, I would like to show you for now 2 things. First, by associating my AWS account, I can view metrics from my different services. Second, by running PromQL queries, I can perform granular queries and see exactly what I need.
- 
- 
-
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/a457b2f9-badc-41eb-8822-fefce678b409)
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/bb741318-1c56-474d-8c19-a0a596c287dd)
 
 FALCO:
 BONUS POINTS: I worked on a special task to demonstrate my knowledge in Falco. Essentially, I installed Falco on my machine and set up the connection with Falcosidekick UI. After that, I generated malicious activity using the event-generator. Finally, I performed a basic tuning by disabling a Falco rule.
 
 In the Falco UI, I performed a search for alerts generated by the "Write below root" rule, which is associated with the use of the persistence tactic. When a rule like "Write below root" is triggered, it suggests that there is an attempt to modify or tamper with system rules in order to establish persistence. This behavior can involve altering the functionality of existing rules or introducing new rules that enable unauthorized access or control over the compromised system. Attackers often employ these techniques to maintain their presence within the targeted environment and ensure long-term persistence. By monitoring and investigating alerts related to this rule, it becomes possible to detect and respond to potential threats, helping to protect the integrity and security of the system.
 It is important to emphasize that tuning these rules is key to providing the real value of Falco. Editing macros, managing lists, and adding exceptions will be crucial to prevent rules from triggering false positives. As in the example above, if such activity is performed by an admin that is expected to performe that task, adding that user to an exception list would be the best approach to avoid unnecessary noise.
- 
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/0962dab4-1f62-48ce-84fb-3fc26714e03c)
+
 Editing rule:
 Enable:
- 
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/70a879df-3187-43c7-8edc-23627644fd86)
 Disabled:
- 
+
+
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/99e0ec05-0520-4753-b55b-f456b058eed7)
+
 CLI Probe it was configured by me:
 root@marvin-virtual-machine:/home/marvin# sudo systemctl status  falco
 ● falco-kmod.service - Falco: Container Native Runtime Security with kmod
@@ -272,6 +259,8 @@ INFO sleep for 100ms                               action=syscall.ReadSensitiveF
 INFO action executed                               action=syscall.ReadSensitiveFileUntrusted
 INFO sleep for 100ms                               action=syscall.SystemProcsNetworkActiv
 
+
+
 Feedback?
 I really enjoyed the experience of working on this project. I know that I could have added a little more to it in general, but unfortunately, I received the evaluation this week, which coincided with my son's week and our planned vacation week when we were supposed to be away from home. Despite the time constraints and the fact that I would have liked a little more time or not being on vacation, I truly enjoyed the experience.
 
@@ -279,4 +268,14 @@ As technical feedback, I would add an exercise similar to the one I did for Falc
 
 
 
-I worked on this lab in an Elastic environment,  
+I worked on this lab in an Elastic environment:
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/35578413-59ec-403b-b9a5-6db6a1fde7d3)
+
+
+
+
+
+
+
+
+
