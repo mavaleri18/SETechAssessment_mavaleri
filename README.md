@@ -130,10 +130,15 @@ default           Active   20m
 kube-node-lease   Active   20m
 kube-public       Active   20m
 kube-system       Active   20m
+
+
+
 2. Signup for a Sysdig Trial, make sure you Select All features when signing up (https://sysdig.com/start-free/)
 
 I have signed up, and this is my customer ID just to confirm that I have subscribed.
 ![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/3c9dae5a-601a-427e-bf34-dc8e3504394d)
+
+
 3. Install the Sysdig Agent(s) to your Kubernetes cluster. 
 The Kubernetes Sysdig Agent is installed and deployed on one of the nodes (ip-192-168-20-182.ec2.internal) in my EKS cluster. I installed it using the Wizard and Helm charts.
 
@@ -180,7 +185,12 @@ As an extra point, I associated my AWS account with sysdig secure and monitor, w
 ![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/40b5f82d-6b64-4bd6-aa62-968d25a0bf8a)
 ![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/73abbbcf-4109-4f33-a374-007298f5dddd)
 ![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/0d5f6466-1875-4834-bdcf-cdf597b1d2af)
-4. Install the classic voting app into your K8s cluster (https://github.com/dockersamples/example-voting-app) 
+
+
+
+4. Install the classic voting app into your K8s cluster (https://github.com/dockersamples/example-voting-app)
+
+   Clone the repo to your github:
 In this repository, https://github.com/mavaleri18/SYSDIG-TECH-ASSESMENT-APPS2, you can find where I cloned the app.
 
           marvin@marvin-virtual-machine:~/$ git pull origin main
@@ -206,9 +216,59 @@ remote: Resolving deltas: 100% (409/409), done.
 To https://github.com/mavaleri18/SYSDIG-TECH-ASSESMENT-APPS2
  * [new branch]      main -> main
 
-Git integration: 
-![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/17d14992-ca10-4a3e-8ada-156c11e68ece)
-5. Get Creative and build some stuff in Sysdig.
+   Expose the app so you can browse to the UI and see it working:
+   ![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/45660a64-39ae-47b9-8f36-31ac7fc8e0c6)
+
+    ![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/9337555b-3b04-4697-98bd-aa0a742cdf51)
+
+marvin@marvin-virtual-machine:~$ git clone https://github.com/mavaleri18/SYSDIG-TECH-ASSESMENT-APPS2
+Cloning into 'SYSDIG-TECH-ASSESMENT-APPS2'...
+remote: Enumerating objects: 1084, done.
+remote: Counting objects: 100% (1084/1084), done.
+remote: Compressing objects: 100% (616/616), done.
+remote: Total 1084 (delta 409), reused 1084 (delta 409), pack-reused 0
+Receiving objects: 100% (1084/1084), 1.14 MiB | 2.72 MiB/s, done.
+Resolving deltas: 100% (409/409), done.
+arvin@marvin-virtual-machine:~$ kubectl cluster-info
+Kubernetes control plane is running at https://127.0.0.1:6443
+CoreDNS is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+Metrics-server is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/https:metrics-server:https/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+marvin@marvin-virtual-machine:~$ kubectl get nodes
+NAME                   STATUS   ROLES                  AGE     VERSION
+lima-rancher-desktop   Ready    control-plane,master   4h32m   v1.27.3+k3s1
+marvin@marvin-virtual-machine:~$ cd SYSDIG-TECH-ASSESMENT-APPS2/
+marvin@marvin-virtual-machine:~/SYSDIG-TECH-ASSESMENT-APPS2$ kubectl create -f k8s-specifications/
+deployment.apps/db created
+service/db created
+deployment.apps/redis created
+service/redis created
+deployment.apps/result created
+service/result created
+deployment.apps/vote created
+service/vote created
+deployment.apps/worker created
+marvin@marvin-virtual-machine:~/SYSDIG-TECH-ASSESMENT-APPS2$ kubectl get nodes
+NAME                   STATUS   ROLES                  AGE     VERSION
+lima-rancher-desktop   Ready    control-plane,master   4h34m   v1.27.3+k3s1
+marvin@marvin-virtual-machine:~/SYSDIG-TECH-ASSESMENT-APPS2$ cd ~
+marvin@marvin-virtual-machine:~$ kubectl get namespaces
+NAME              STATUS   AGE
+kube-system       Active   4h35m
+default           Active   4h35m
+kube-public       Active   4h35m
+kube-node-lease   Active   4h35m
+marvin@marvin-virtual-machine:~$ kubectl get pods -n default
+NAME                      READY   STATUS    RESTARTS   AGE
+redis-66949686f7-dgl5q    1/1     Running   0          4m9s
+db-7fc468458-vncsm        1/1     Running   0          4m9s
+worker-6fc5d5b668-fk7sv   1/1     Running   0          4m8s
+result-6b9bc65689-7fp2z   1/1     Running   0          4m9s
+vote-69dc45b49c-tv9qd     1/1     Running   0          4m8s
+
+
+
 SYSDIG SECURE:
 I want to emphasize that I created this deployment from scratch, and much of what I configured was intentionally done to create an insecure environment that does not follow security principles such as least privilege, etc. Additionally, I generated suspicious behaviors through commands to trigger alerts based on Falco rules. 
 
