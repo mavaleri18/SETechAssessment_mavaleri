@@ -270,7 +270,10 @@ worker-6fc5d5b668-fk7sv   1/1     Running   0          4m8s
 result-6b9bc65689-7fp2z   1/1     Running   0          4m9s
 vote-69dc45b49c-tv9qd     1/1     Running   0          4m8s
 
+I al ran a trivy scan that is a capabilitiy in Rancher to check for CVEs in an votingapp Image:
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/368bf3aa-40c7-4eb9-be1e-d3f01ff7338f)
 
+5.Get Creative and build some stuff in Sysdig
 
 SYSDIG SECURE:
 I want to emphasize that I created this deployment from scratch, and much of what I configured was intentionally done to create an insecure environment that does not follow security principles such as least privilege, etc. Additionally, I generated suspicious behaviors through commands to trigger alerts based on Falco rules. 
