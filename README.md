@@ -274,6 +274,14 @@ I al ran a trivy scan that is a capabilitiy in Rancher to check for CVEs in an v
 ![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/368bf3aa-40c7-4eb9-be1e-d3f01ff7338f)
 
 5.Get Creative and build some stuff in Sysdig
+Scan the images being used for the Voting App, what do the results mean? Which one has the most Risk? Why?
+Addressing running, vulnerable packages with a known exploit should be the top priority. 
+
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/87f8971b-1579-4625-92d8-708eb2b8bf2b)
+
+![image](https://github.com/mavaleri18/SETechAssessment_mavaleri/assets/139200227/f8975a16-38c4-4ea5-9a18-0b89664b1010)
+
+
 
 SYSDIG SECURE:
 I want to emphasize that I created this deployment from scratch, and much of what I configured was intentionally done to create an insecure environment that does not follow security principles such as least privilege, etc. Additionally, I generated suspicious behaviors through commands to trigger alerts based on Falco rules. 
